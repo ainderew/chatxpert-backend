@@ -1,26 +1,58 @@
 import axios from 'axios'
+import Message from '../Models/Message.model';
+import Channel from '../Models/Channel.model';
+import AnalyticsModel from '../Models/Analytics.model';
+import { SEARCH_TERMS } from '../utils/constants';
 
 class ChatController {
   private model: any;
 
-  constructor(newMod: any) {
-    this.model = newMod;
+  constructor(model: any) {
+    this.model = model;
   }
 
   public async getReply (req: any, res: any):Promise<void> {
-    const {searchInput} = req.body
-    console.log("HERE") 
-    console.log(searchInput)
+    const {userInput, userId} = req.body
+
+
+   const setAnalytics = (messageId:string, businessId:string = "") =>{
+    const searchTerm = getSearchTerm(userInput)
+    
+    searchTerm.forEach(term =>{
+      const analyticData = new AnalyticsModel();
+      analyticData.setMessageId(messageId)
+      analyticData.setBusinessId(businessId)
+      analyticData.setSearchTerm(term)
+      analyticData.saveAnalyticsData()
+    })
+   }
+
+    if(!userId || userId === ''){
+      const userMessage = new Message(userInput[userInput.length - 1].content);
+      userMessage.setType(false);
+      userMessage.saveMessage();
+      setAnalytics(userMessage.getMessageId())
+    }else{
+      const channel = new Channel();
+      const userChannelId = await channel.getUserChannel(userId)
+  
+      const userMessage = new Message( userInput[userInput.length - 1].content);
+      userMessage.setChannelId(userChannelId)
+      userMessage.setType(false)
+      userMessage.saveMessage();
+      setAnalytics(userMessage.getMessageId())
+    }
 
     try {
-      // Send a GET request to another endpoint
       const response = await axios.post('http://localhost:2121/',{
-        data: searchInput
+        data: userInput
       });
+      console.log(response.data)
+      const aiMessage = new Message(response.data)
+      aiMessage.setType(true);
+      aiMessage.saveMessage();
   
-      // Handle successful response
-      console.log({...response.data, type:'ai'});
-      res.send({...response.data, type: 'ai'});
+      res.send({content: response.data, role: 'ai'});
     } catch (error) {
       // Handle error
       console.log(error);
@@ -30,5 +62,13 @@ class ChatController {
   }
 }
 
+
+const getSearchTerm = (userInput: any) : string[] =>{
+  const lastInput = userInput[userInput.length - 1].content
+
+  const result = SEARCH_TERMS.filter(term => lastInput.toLowerCase().includes(term));
+  console.log(result)
+  return result;
+}
 
 export default ChatController

@@ -1,0 +1,1 @@
+export const SEARCH_TERMS = ['food', 'cake', 'chocolate', 'tres layer bakeshop'];

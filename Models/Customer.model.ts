@@ -1,4 +1,4 @@
-import mongoose, { ObjectId } from "mongoose";
+import mongoose from "mongoose";
 
 const CustomerSchema = new mongoose.Schema({
   customerId: {type: String},
@@ -12,13 +12,12 @@ class Customer {
   private customerID: string;
   private email: string;
   private password: string;
-  private type: string;
+
 
 
   constructor() {
     this.email = '';
     this.password = ''
-    this.type = ''
     this.customerID = ''
   }
 
@@ -38,8 +37,8 @@ class Customer {
     return this.password;
   }
 
-  public getType(): string{
-    return this.type
+  public setCustomerId(id: string){
+    this.customerID = id;
   }
 
   public getCustomerId(): string{
@@ -48,13 +47,16 @@ class Customer {
 
 
   public async createCustomer(): Promise<void>{
+    console.log("creating")
     const result = new MongoDBCustomer({email:this.email, password: this.password}) ;
     await result.save()
+    this.customerID = result._id.toString();
   }
 
   public async readCustomer(): Promise<Customer | null>{
-    console.log(this.email)
-    const result: Customer | null =  await MongoDBCustomer.findOne({email: this.email, password: this.password});
+    const result: Customer | null =  await MongoDBCustomer.findOne({email: this.email, password: this.password}, {_id: 1, email:1});
+    if(!result) return null;
+    console.log(result)
     return result;
   }
 

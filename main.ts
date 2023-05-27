@@ -6,6 +6,8 @@ import bodyParser from "body-parser";
 import cors from 'cors'
 import ChatController from "./Controllers/Chat.controller";
 import Message from "./Models/Message.model";
+import AuthenticationController from "./Controllers/Authentication.controller";
+import {authenticate} from "./Middleware/authentication";
 const express = require('express');
 
 
@@ -24,13 +26,14 @@ app.get('/', (req: any, res: any) => {
   res.send('BRAMK coming soon');
 
 });
-const cModel = new Customer()
-const cMessage = new Message()
-const cController = new CustomerController(cModel);
+const mCustomer = new Customer()
+const cMessage = new Message("")
+// const cController = new CustomerController(mCustomer);
 const chController = new ChatController(cMessage);
-console.log(cController.getTest())
-app.use('/register/customer',cController.getRegisterData);
-app.use('/login',cController.loginUser);
+const cAuthentication = new AuthenticationController(mCustomer);
+
+app.use('/register/customer',cAuthentication.getRegisterData);
+app.use('/login',cAuthentication.loginUser);
 app.use('/getReply',chController.getReply);
 
 
