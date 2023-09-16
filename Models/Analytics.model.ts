@@ -1,60 +1,55 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 const AnalyticsSchema = new mongoose.Schema({
-  businessId: { type: String },
-  messageId: { type: String },
-  searchTerm: { type: String },
-  createdAt: { type: Date },
-});
-const MongoDBCAnalytics = mongoose.model('Analytics', AnalyticsSchema);
+  analyticsId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true },
+  clickCounts: { type: Number }
+})
+
+const MongoDBCAnalytics = mongoose.model('Analytics', AnalyticsSchema)
 
 class AnalyticsModel {
-  private analyticsId: string;
-  private businessId: string;
-  private messageId: string;
-  private searchTerm: string;
-  private createdAt: Date;
+  private analyticsId: string
+  private businessId: string
+  private clickCounts: number
 
   constructor() {
-    this.analyticsId = '';
-    this.businessId = '';
-    this.messageId = '';
-    this.searchTerm = '';
-    this.createdAt = new Date();
+    this.analyticsId = ''
+    this.businessId = ''
+    this.clickCounts = 0
+  }
+
+  public getAnalyticsId(): string {
+    return this.analyticsId
   }
 
   public setBusinessId(businessId: string): void {
-    this.businessId = businessId;
-  }
-
-  public setMessageId(messageId: string): void {
-    this.messageId = messageId;
-  }
-
-  public setSearchTerm(searchTerm: string): void {
-    this.searchTerm = searchTerm;
+    this.businessId = businessId
   }
 
   public getBusinessId(): string {
-    return this.businessId;
+    return this.businessId
   }
 
-  public getMessageId(): string {
-    return this.messageId;
+  public setClickCounts(clickCounts: number): void {
+    this.clickCounts = clickCounts
   }
 
-  public async saveAnalyticsData(): Promise<void> {
-    try {
-      new MongoDBCAnalytics({
-        businessId: this.businessId,
-        messageId: this.messageId,
-        searchTerm: this.searchTerm,
-        createdAt: this.createdAt,
-      }).save();
-    } catch (err) {
-      throw err;
-    }
+  public getClickedCounts(): number {
+    return this.clickCounts
   }
+
+  //   public async saveAnalyticsData(): Promise<void> {
+  //     try {
+  //       new MongoDBCAnalytics({
+  //         	businessId: this.businessId
+  //			analyticsId: this.analyticsId
+  //			clickCounts: this.clickCounts
+  //       }).save()
+  //     } catch (err) {
+  //       throw err
+  //     }
+  //   }
 }
 
 export default AnalyticsModel

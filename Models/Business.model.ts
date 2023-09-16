@@ -1,52 +1,30 @@
 import mongoose from 'mongoose'
+import User from './User.model'
 
 const BusinessSchema = new mongoose.Schema({
-  businessId: { type: String },
-  email: { type: String },
-  password: { type: String },
-  name: { type: String },
-  size: { type: Number }
+  businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  name: { type: String, required: true },
+  size: { type: Number },
+  industry: { type: String, required: true }
 })
 
 const MongoDBBusiness = mongoose.model('Business', BusinessSchema)
 
 class BusinessModel {
   private businessId: string
-  private email: string
-  private password: string
   private name: string
   private size: number
+  private industry: string
 
   constructor() {
     this.businessId = ''
-    this.email = ''
-    this.password = ''
     this.name = ''
     this.size = 0
-  }
-
-  public setBusinessId(businessId: string): void {
-    this.businessId = businessId
+    this.industry = ''
   }
 
   public getBusinessId(): string {
     return this.businessId
-  }
-
-  public setEmail(email: string): void {
-    this.email = email
-  }
-
-  public getEmail(): string {
-    return this.email
-  }
-
-  public setPassword(password: string): void {
-    this.password = password
-  }
-
-  public getPassword(): string {
-    return this.password
   }
 
   public setName(name: string): void {
@@ -65,12 +43,18 @@ class BusinessModel {
     return this.size
   }
 
-  public async saveAnalyticsData(): Promise<void> {
+  public setIndustry(industry: string): void {
+    this.industry = industry
+  }
+
+  public getIndustry(): string {
+    return this.industry
+  }
+
+  public async saveBusinessData(): Promise<void> {
     try {
       new MongoDBBusiness({
         businessId: this.businessId,
-        email: this.email,
-        password: this.password,
         name: this.name,
         size: this.size
       }).save()
