@@ -1,7 +1,6 @@
 import mongoose, { DateExpression } from 'mongoose'
 
 const NotificationSchema = new mongoose.Schema({
-  notificaionId: { type: mongoose.Schema.Types.ObjectId, required: true },
   businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true },
   notification: { type: String, required: true },
   isViewed: { type: Boolean },

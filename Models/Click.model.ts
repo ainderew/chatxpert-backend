@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 
 const ClickSchema = new mongoose.Schema(
   {
-    clickId: { type: mongoose.SchemaTypes.ObjectId, required: true },
     analyticsId: { type: mongoose.Schema.Types.ObjectId, ref: 'Analytics', required: true }
   },
   {

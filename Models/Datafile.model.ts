@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 
 const DatafileSchema = new mongoose.Schema({
-  datafileId: { type: mongoose.Schema.Types.ObjectId, required: true },
   datasetId: { type: mongoose.Schema.Types.ObjectId, ref: 'Dataset', required: true },
   originalname: { type: String },
   blobname: { type: String },

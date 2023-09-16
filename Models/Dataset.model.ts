@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 
 const DatasetSchema = new mongoose.Schema({
-  datasetId: { type: mongoose.Schema.Types.ObjectId, required: true },
   businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true },
   activedata: { type: String }
 })
