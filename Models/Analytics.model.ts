@@ -5,9 +5,9 @@ const AnalyticsSchema = new mongoose.Schema({
   clickCounts: { type: Number }
 })
 
-const MongoDBCAnalytics = mongoose.model('Analytics', AnalyticsSchema)
+export const MongoDBCAnalytics = mongoose.model('Analytics', AnalyticsSchema)
 
-class AnalyticsModel {
+class Analytics {
   private analyticsId: string
   private businessId: string
   private clickCounts: number
@@ -51,4 +51,4 @@ class AnalyticsModel {
   //   }
 }
 
-export default AnalyticsModel
+export default Analytics

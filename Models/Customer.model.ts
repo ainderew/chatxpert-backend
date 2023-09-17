@@ -1,18 +1,17 @@
 import mongoose from 'mongoose'
-import User from './User.model'
 
 const CustomerSchema = new mongoose.Schema({
   customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   username: { type: String, required: true }
 })
-const MongoDBCustomer = mongoose.model('Customer', CustomerSchema)
+export const MongoDBCustomer = mongoose.model('Customer', CustomerSchema)
 
 class Customer {
-  private customerID: string
+  private customerId: string
   private username: string
 
   constructor() {
-    this.customerID = ''
+    this.customerId = ''
     this.username = ''
   }
 
@@ -25,13 +24,17 @@ class Customer {
   }
 
   public getCustomerId(): string {
-    return this.customerID
+    return this.customerId
+  }
+
+  public setCustomerId(customerId: string) {
+    this.customerId = customerId
   }
 
   public async saveCustomerData(): Promise<void> {
     try {
       new MongoDBCustomer({
-        customerId: this.customerID,
+        customerId: this.customerId,
         username: this.username
       }).save()
     } catch (err) {

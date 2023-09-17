@@ -9,7 +9,7 @@ const NotificationSchema = new mongoose.Schema({
 
 const MongoDBCNotification = mongoose.model('Notification', NotificationSchema)
 
-class NotificationModel {
+class Notification {
   private notificaionId: string
   private businessId: string
   private notification: string
@@ -75,4 +75,4 @@ class NotificationModel {
   //   }
 }
 
-export default NotificationModel
+export default Notification

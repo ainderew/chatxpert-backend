@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import User from './User.model'
 
 const BusinessSchema = new mongoose.Schema({
   businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -8,9 +7,9 @@ const BusinessSchema = new mongoose.Schema({
   industry: { type: String, required: true }
 })
 
-const MongoDBBusiness = mongoose.model('Business', BusinessSchema)
+export const MongoDBBusiness = mongoose.model('Business', BusinessSchema)
 
-class BusinessModel {
+class Business {
   private businessId: string
   private name: string
   private size: number
@@ -21,6 +20,10 @@ class BusinessModel {
     this.name = ''
     this.size = 0
     this.industry = ''
+  }
+
+  public setBusinessId(businessId: string): void {
+    this.businessId = businessId
   }
 
   public getBusinessId(): string {
@@ -64,4 +67,4 @@ class BusinessModel {
   }
 }
 
-export default BusinessModel
+export default Business

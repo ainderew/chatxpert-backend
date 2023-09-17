@@ -12,7 +12,7 @@ const DatafileSchema = new mongoose.Schema({
 
 const MongoDBDatafile = mongoose.model('Datafile', DatafileSchema)
 
-class DatafileModel {
+class Datafile {
   private datafileId: string
   private datasetId: string
   private originalname: string
@@ -111,4 +111,4 @@ class DatafileModel {
   }
 }
 
-export default DatafileModel
+export default Datafile

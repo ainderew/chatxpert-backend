@@ -13,7 +13,7 @@ const ClickSchema = new mongoose.Schema(
 
 const MongoDBCAnalytics = mongoose.model('Click', ClickSchema)
 
-class ClickModel {
+class Click {
   private clickId: string
   private analyticsId: string
 
@@ -46,4 +46,4 @@ class ClickModel {
   //   }
 }
 
-export default ClickModel
+export default Click

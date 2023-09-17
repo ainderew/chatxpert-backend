@@ -7,7 +7,7 @@ const DatasetSchema = new mongoose.Schema({
 
 const MongoDBDataset = mongoose.model('Dataset', DatasetSchema)
 
-class DatasetModel {
+class Dataset {
   private dataId: string
   private businessId: string
   private activedata: string
@@ -51,4 +51,4 @@ class DatasetModel {
   }
 }
 
-export default DatasetModel
+export default Dataset
