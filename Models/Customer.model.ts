@@ -1,71 +1,68 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
 const CustomerSchema = new mongoose.Schema({
-  customerId: {type: String},
-  email: {type: String, required: true},
-  password: {type: String, required: true},
+  customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  username: { type: String, required: true }
 })
-const MongoDBCustomer = mongoose.model('Customer', CustomerSchema);
-
+export const MongoDBCustomer = mongoose.model('Customer', CustomerSchema)
 
 class Customer {
-  private customerID: string;
-  private email: string;
-  private password: string;
-
-
+  private customerId: string
+  private username: string
 
   constructor() {
-    this.email = '';
-    this.password = ''
-    this.customerID = ''
+    this.customerId = ''
+    this.username = ''
   }
 
-  public setEmail(email:string){
-    this.email = email;
+  public setUsername(username: string) {
+    this.username = username
   }
 
-  public getEmail():string{
-    return this.email
+  public getUsername(): string {
+    return this.username
   }
 
-  public setPassword(password: string){
-    this.password = password;
+  public getCustomerId(): string {
+    return this.customerId
   }
 
-  public getPassword(): string{
-    return this.password;
+  public setCustomerId(customerId: string) {
+    this.customerId = customerId
   }
 
-  public setCustomerId(id: string){
-    this.customerID = id;
+  public async saveCustomerData(): Promise<void> {
+    try {
+      new MongoDBCustomer({
+        customerId: this.customerId,
+        username: this.username
+      }).save()
+    } catch (err) {
+      throw err
+    }
   }
 
-  public getCustomerId(): string{
-    return this.customerID
-  }
+  //   public async createCustomer(): Promise<void> {
+  //     console.log('creating')
+  //     const result = new MongoDBCustomer({ email: this.email, password: this.password })
+  //     await result.save()
+  //     this.customerID = result._id.toString()
+  //   }
 
+  //   public async readCustomer(): Promise<Customer | null> {
+  //     const result: Customer | null = await MongoDBCustomer.findOne(
+  //       { email: this.email, password: this.password },
+  //       { _id: 1, email: 1 }
+  //     )
+  //     if (!result) return null
+  //     console.log(result)
+  //     return result
+  //   }
 
-  public async createCustomer(): Promise<void>{
-    console.log("creating")
-    const result = new MongoDBCustomer({email:this.email, password: this.password}) ;
-    await result.save()
-    this.customerID = result._id.toString();
-  }
-
-  public async readCustomer(): Promise<Customer | null>{
-    const result: Customer | null =  await MongoDBCustomer.findOne({email: this.email, password: this.password}, {_id: 1, email:1});
-    if(!result) return null;
-    console.log(result)
-    return result;
-  }
-
-  public async deleteCustomer(): Promise<void>{
-    const result = await MongoDBCustomer.deleteOne({email: this.email})
-    console.log(result)
-  }
-
-
+  //   public async deleteCustomer(): Promise<void> {
+  //     const result = await MongoDBCustomer.deleteOne({ email: this.email })
+  //     console.log(result)
+  //   }
 }
 
-export default Customer;
+export default Customer
