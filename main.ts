@@ -7,6 +7,7 @@ import ChatController from './Controllers/Chat.controller'
 import Message from './Models/Message.model'
 import AuthenticationController from './Controllers/Authentication.controller'
 import { authenticate } from './Middleware/authentication'
+import route from './routes/route'
 const express = require('express')
 
 const app = express()
@@ -30,6 +31,7 @@ const cAuthentication = new AuthenticationController(mCustomer)
 app.use('/register/customer', cAuthentication.getRegisterData)
 app.use('/login', cAuthentication.loginUser)
 app.use('/getReply', chController.getReply)
+app.use(route)
 
 app.listen(config.PORT, () => {
   console.log(`[server]: Server is running at http://localhost:${config.PORT} 🚀🥳`)
