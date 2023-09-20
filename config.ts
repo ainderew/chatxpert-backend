@@ -1,4 +1,3 @@
-
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -9,10 +8,9 @@ type Config = {
 }
 
 const config: Config = {
-  DB_URL: process.env.dbURL || '',
+  DB_URL: process.env.DB || '',
   PORT: process.env.PORT || '3000',
-  SECRET: process.env.secret || '',
+  SECRET: process.env.secret || ''
 }
 
-
-export default config;
+export default config
