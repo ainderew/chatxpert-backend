@@ -7,7 +7,7 @@ const NotificationSchema = new mongoose.Schema({
   dateToNotify: { type: Date }
 })
 
-const MongoDBCNotification = mongoose.model('Notification', NotificationSchema)
+export const MongoDBCNotification = mongoose.model('Notification', NotificationSchema)
 
 class Notification {
   private notificaionId: string

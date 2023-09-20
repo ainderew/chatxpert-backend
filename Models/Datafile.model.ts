@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const DatafileSchema = new mongoose.Schema({
-  datasetId: { type: mongoose.Schema.Types.ObjectId, ref: 'Dataset', required: true },
+  businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true },
   originalname: { type: String },
   blobname: { type: String },
   path: { type: String },
@@ -10,11 +10,11 @@ const DatafileSchema = new mongoose.Schema({
   datelastused: { type: Date }
 })
 
-const MongoDBDatafile = mongoose.model('Datafile', DatafileSchema)
+export const MongoDBDatafile = mongoose.model('Datafile', DatafileSchema)
 
 class Datafile {
   private datafileId: string
-  private datasetId: string
+  private businessId: string
   private originalname: string
   private blobname: string
   private path: string
@@ -24,25 +24,25 @@ class Datafile {
 
   constructor() {
     this.datafileId = ''
-    this.datasetId = ''
+    this.businessId = ''
     this.originalname = ''
     this.blobname = ''
     this.path = ''
-    this.status = true
+    this.status = false
     this.dateuploaded = new Date()
     this.datelastused = new Date()
   }
 
-  public getDatafileId() {
+  public getFileId() {
     return this.datafileId
   }
 
-  public setDatasetId(datasetId: string) {
-    this.datasetId = datasetId
+  public getBusinessId() {
+    return this.businessId
   }
 
-  public getDatasetId() {
-    return this.datasetId
+  public setBusinessId(businessId: string) {
+    this.businessId = businessId
   }
 
   public getOriginalname() {
@@ -97,7 +97,7 @@ class Datafile {
     try {
       new MongoDBDatafile({
         datafileId: this.datafileId,
-        datasetId: this.datasetId,
+        businessId: this.businessId,
         originalname: this.originalname,
         blobname: this.blobname,
         path: this.path,

@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const BusinessSchema = new mongoose.Schema({
   businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  name: { type: String, required: true },
+  name: { type: String, required: true, unique: true },
   size: { type: Number },
   industry: { type: String, required: true }
 })
