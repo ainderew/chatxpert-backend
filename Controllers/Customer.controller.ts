@@ -3,12 +3,6 @@ import Customer, { MongoDBCustomer } from '../Models/Customer.model'
 import UserController from './User.controller'
 
 class CustomerController {
-  private customerModel: Customer
-
-  constructor(CustomerModel: Customer) {
-    this.customerModel = CustomerModel
-  }
-
   public async registerCustomer(req: Request, res: Response) {
     const user = new UserController()
     const newCustomer = new Customer()

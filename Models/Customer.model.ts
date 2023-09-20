@@ -2,8 +2,9 @@ import mongoose from 'mongoose'
 
 const CustomerSchema = new mongoose.Schema({
   customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  username: { type: String, required: true }
+  username: { type: String, required: true, unique: true }
 })
+
 export const MongoDBCustomer = mongoose.model('Customer', CustomerSchema)
 
 class Customer {
