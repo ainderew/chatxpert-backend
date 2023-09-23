@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const ClickSchema = new mongoose.Schema(
+/* const ClickSchema = new mongoose.Schema(
   {
     analyticsId: { type: mongoose.Schema.Types.ObjectId, ref: 'Analytics', required: true }
   },
@@ -9,17 +9,24 @@ const ClickSchema = new mongoose.Schema(
       createdAt: 'dateclicked'
     }
   }
-)
+) */
 
-const MongoDBCAnalytics = mongoose.model('Click', ClickSchema)
+const ClickSchema = new mongoose.Schema({
+  analyticsId: { type: mongoose.Schema.Types.ObjectId, ref: 'Analytics', required: true },
+  dateclicked: { type: Date, required: true }
+})
+
+export const MongoDBClick = mongoose.model('Click', ClickSchema)
 
 class Click {
   private clickId: string
   private analyticsId: string
+  private dateclicked: Date
 
   constructor() {
     this.clickId = ''
     this.analyticsId = ''
+    this.dateclicked = new Date()
   }
 
   public getClickId(): string {
@@ -30,10 +37,17 @@ class Click {
     this.analyticsId = analyticsId
   }
 
+  public setDateclicked(dateclicked: Date): void {
+    this.dateclicked = dateclicked
+  }
+
   public getAnalyticsId(): string {
     return this.analyticsId
   }
 
+  public getDateclicked(): Date {
+    return this.dateclicked
+  }
   //   public async saveAnalyticsData(): Promise<void> {
   //     try {
   //       new MongoDBCClick({

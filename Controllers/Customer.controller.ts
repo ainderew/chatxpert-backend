@@ -13,7 +13,6 @@ class CustomerController {
       if (savedUser && savedUser._id) {
         newCustomer.setCustomerId(savedUser._id)
         newCustomer.setUsername(username)
-
         const result = new MongoDBCustomer(newCustomer)
         await result.save()
         res.status(200).json(result)

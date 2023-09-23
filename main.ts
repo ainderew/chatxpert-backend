@@ -8,7 +8,7 @@ import Message from './Models/Message.model'
 import AuthenticationController from './Controllers/Authentication.controller'
 import { authenticate } from './Middleware/authentication'
 const express = require('express')
-
+import routes from './routes/route'
 const app = express()
 
 const db = new Database(config.DB_URL)
@@ -26,7 +26,7 @@ const cMessage = new Message('')
 // const cController = new CustomerController(mCustomer);
 const chController = new ChatController(cMessage)
 const cAuthentication = new AuthenticationController(mCustomer)
-
+app.use(routes)
 app.use('/register/customer', cAuthentication.getRegisterData)
 app.use('/login', cAuthentication.loginUser)
 app.use('/getReply', chController.getReply)
