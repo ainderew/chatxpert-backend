@@ -6,8 +6,11 @@ class ClickController {
   public async createClick(req: Request, res: Response): Promise<any> {
     const newClick = new Click()
     const date = new Date()
-    const analyticsId = req.params.analyticsId
-    newClick.setAnalyticsId(analyticsId)
+    const businessId = req.params.businessId
+
+    const analyticsres = await MongoDBCAnalytics.find({ businessId: businessId })
+    const { _id: analyticsId } = analyticsres[0]
+    newClick.setAnalyticsId(analyticsId + '' || '')
     newClick.setDateclicked(date)
     try {
       const result = new MongoDBClick(newClick)
@@ -21,7 +24,10 @@ class ClickController {
   }
 
   public async getClicksById(req: Request, res: Response): Promise<any> {
-    const analyticsId = req.params.analyticsId
+    const businessId = req.params.businessId
+    const analyticsres = await MongoDBCAnalytics.find({ businessId: businessId })
+    const { _id: analyticsId } = analyticsres[0]
+
 
     try {
       const clicks = await MongoDBClick.find({ analyticsId: analyticsId }).exec()
@@ -48,8 +54,15 @@ class ClickController {
       'November',
       'December'
     ]
-    const analyticsId = req.params.analyticsId
+
+
+
     const year = parseInt(req.params.year, 10)
+    const businessId = req.params.businessId
+    const analyticsres = await MongoDBCAnalytics.find({ businessId: businessId })
+    const { _id: analyticsId } = analyticsres[0]
+
+
     if (!year || isNaN(year)) {
       res.status(400).json({ error: 'Invalid year provided' })
       return
@@ -89,8 +102,11 @@ class ClickController {
   }
 
   public async getClicksByIdInYear(req: Request, res: Response): Promise<any> {
-    const analyticsId = req.params.analyticsId
+
     const year = req.params.year
+    const businessId = req.params.businessId
+    const analyticsres = await MongoDBCAnalytics.find({ businessId: businessId })
+    const { _id: analyticsId } = analyticsres[0]
 
     try {
       const startDate = new Date(`${year}-01-01T00:00:00.000Z`)
@@ -113,10 +129,13 @@ class ClickController {
   }
 
   public async getClicksPerDayInMonth(req: Request, res: Response): Promise<any> {
-    const analyticsId = req.params.analyticsId
+   
     const year = parseInt(req.params.year, 10)
     const month = parseInt(req.params.month, 10)
-
+    const businessId = req.params.businessId
+    const analyticsres = await MongoDBCAnalytics.find({ businessId: businessId })
+    const { _id: analyticsId } = analyticsres[0]
+    
     if (!month || isNaN(month) || !year || isNaN(year)) {
       res.status(400).json({ error: 'Invalid year or month provided' })
       return

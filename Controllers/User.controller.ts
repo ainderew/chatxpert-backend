@@ -14,7 +14,7 @@ class UserController {
     try {
       const findEmail = await MongoDBUser.find({ email: email })
 
-      if (!findEmail) {
+      if (findEmail) {
         const result = new MongoDBUser(newUser)
         await result.save()
         return result
