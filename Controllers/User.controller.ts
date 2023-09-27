@@ -20,6 +20,7 @@ class UserController {
       res.status(400).json({ error: 'Bad Request' })
     }
   }
+
 }
 
 export default UserController
