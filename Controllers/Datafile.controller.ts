@@ -1,31 +1,23 @@
-import containerClient, { containerName, storageName } from '../utils/azure'
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response } from 'express'
 import Datafile, { MongoDBDatafile } from '../Models/Datafile.model'
+import axios from 'axios'
 
 class DatafileController {
-  public async fileUpload(req: Request, res: Response, next: NextFunction) {
+  public async saveUploadData(req: Request, res: Response) {
     try {
       const dataFile = new Datafile()
-      if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded' })
-      }
 
-      const { businessId } = req.body
+      const { businessId, originalname, blobname, path } = req.body
+
       const dateuploaded = new Date()
       const datelastused = new Date()
-      const fileBuffer = req.file.buffer
-      const originalname = req.file.originalname
-      const blobName = `${Date.now()}-${req.file.originalname}`
-      const blockBlobClient = containerClient.getBlockBlobClient(blobName)
-
-      await blockBlobClient.uploadData(fileBuffer)
 
       await MongoDBDatafile.updateMany({ businessId: businessId }, { $set: { status: false } })
 
       dataFile.setBusinessId(businessId)
       dataFile.setOriginalname(originalname)
-      dataFile.setBlobname(blobName)
-      dataFile.setPath(`https://${storageName}.blob.core.windows.net/${containerName}/${blobName}`)
+      dataFile.setBlobname(blobname)
+      dataFile.setPath(path)
       dataFile.setStatus(true)
       dataFile.setDateuploaded(dateuploaded)
       dataFile.setDatelastused(datelastused)
@@ -40,26 +32,22 @@ class DatafileController {
     }
   }
 
-  public async fileDownload(req: Request, res: Response, next: NextFunction) {
+  public async fileDownload(req: Request, res: Response) {
     const datafileId = req.params.datafileId
 
     try {
       const result = await MongoDBDatafile.find({ _id: datafileId })
 
-      const { blobname, originalname } = result[0]
+      const { originalname, path } = result[0]
 
-      const blockBlobClient = containerClient.getBlobClient(blobname || '')
+      const fileUrl = path || ''
 
-      const response = await blockBlobClient.download()
-      const stream = response.readableStreamBody!
+      const response = await axios.get(fileUrl, { responseType: 'stream' })
 
-      res.set({
-        'Content-Type': response.contentType,
-        'Content-Length': response.contentLength,
-        'Content-Disposition': `attachment; filename="${originalname || ''}"`
-      })
+      res.setHeader('Content-Disposition', `attachment; filename=${originalname || ''}`)
+      res.setHeader('Content-Type', 'text/plain')
 
-      stream.pipe(res)
+      response.data.pipe(res)
     } catch (error) {
       console.error(error)
       res.status(500).json({ error: 'Internal Server Error' })
@@ -83,7 +71,6 @@ class DatafileController {
     }
   }
 
-  //needs changing because ids will be passed using request
   public async findActive(req: Request, res: Response) {
     const businessId = req.params.businessId
     try {

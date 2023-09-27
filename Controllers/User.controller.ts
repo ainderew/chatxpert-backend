@@ -26,12 +26,6 @@ class UserController {
       res.status(400).json({ error: 'Bad Request' })
     }
   }
-  public async LoginUser(req: Request, res: Response): Promise<any> {
-    const { email, password } = req.body
-    try {
-      const user = await MongoDBUser.find({ email })
-    } catch (err) {}
-  }
 }
 
 export default UserController

@@ -1,5 +1,7 @@
 import { generateAuthToken } from "../Middleware/authentication";
 import Channel from "../Models/Channel.model";
+import { MongoDBUser } from "../Models/User.model";
+import bcrypt from "bcrypt"
 
 class AuthenticationController{
   private model: any;
@@ -17,8 +19,16 @@ class AuthenticationController{
     this.model.setEmail(email)
     this.model.setPassword(password);
     const dbCustomer = await this.model.readCustomer();
+
+    const result = await MongoDBUser.findOne({ email: email })
+    if (!result) return res.send({error:"Invalid Credentials"})
+
+    const {_id: userid, password:userpassword} = result
+
+    const checkPassword = await bcrypt.compare(password, userpassword)
+    if (!checkPassword) return res.send({error:"Invalid Credentials"})
     
-    const token = generateAuthToken(dbCustomer._id)
+    const token = generateAuthToken(userid.toString())
 
     if(dbCustomer){
       return res.send({profile: dbCustomer, token: token})
