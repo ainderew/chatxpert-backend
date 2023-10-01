@@ -12,13 +12,7 @@ class AuthenticationController{
 
 
   public loginUser = async(req: any,res:any):Promise<void> => {
-    //get from view
     const { email, password} = req.body;
-
-    //instance of customer model
-    this.model.setEmail(email)
-    this.model.setPassword(password);
-    const dbCustomer = await this.model.readCustomer();
 
     const result = await MongoDBUser.findOne({ email: email })
     if (!result) return res.send({error:"Invalid Credentials"})
@@ -27,11 +21,11 @@ class AuthenticationController{
 
     const checkPassword = await bcrypt.compare(password, userpassword)
     if (!checkPassword) return res.send({error:"Invalid Credentials"})
-    
+
     const token = generateAuthToken(userid.toString())
 
-    if(dbCustomer){
-      return res.send({profile: dbCustomer, token: token})
+    if(result){
+      return res.send({profile: result, token: token})
     }else{
       return res.send({profile: 'no user found'})
     }
