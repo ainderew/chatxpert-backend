@@ -59,13 +59,15 @@ class DatafileController {
     const { businessId } = req.body
     const dateNow = new Date()
     try {
-      await MongoDBDatafile.updateMany({ businessId: businessId }, { $set: { status: false } })
+      await MongoDBDatafile.updateOne({ businessId: businessId , status: true}, { $set: { datelastused: dateNow } }) 
+
+      await MongoDBDatafile.updateMany({ businessId: businessId }, { $set: { status: false } }) 
 
       await MongoDBDatafile.updateOne(
         { _id: datafileId },
-        { $set: { status: true, datelastused: dateNow } }
+        { $set: { status: true } }
       )
-      res.status(200).json({ message: 'Updated' })
+      res.status(200).json({datelastused: dateNow})
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' })
     }
