@@ -2,7 +2,8 @@ import mongoose from 'mongoose'
 
 const CustomerSchema = new mongoose.Schema({
   customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  username: { type: String, required: true, unique: true }
+  username: { type: String, required: true, unique: true },
+  birthdate: { type: Date, required: true, unique: false }
 })
 
 export const MongoDBCustomer = mongoose.model('Customer', CustomerSchema)
@@ -10,10 +11,13 @@ export const MongoDBCustomer = mongoose.model('Customer', CustomerSchema)
 class Customer {
   private customerId: string
   private username: string
+  private birthdate: Date
 
   constructor() {
     this.customerId = ''
     this.username = ''
+    this.birthdate = new Date();
+    this.birthdate.setFullYear(this.birthdate.getFullYear() - 12);
   }
 
   public setUsername(username: string) {
@@ -32,11 +36,20 @@ class Customer {
     this.customerId = customerId
   }
 
+  public getBirthdate(): Date {
+    return this.birthdate
+  }
+
+  public setBirthdate(birthdate: Date) {
+    this.birthdate = birthdate
+  }
+
   public async saveCustomerData(): Promise<void> {
     try {
       new MongoDBCustomer({
         customerId: this.customerId,
-        username: this.username
+        username: this.username,
+        birthdate: this.birthdate
       }).save()
     } catch (err) {
       throw err

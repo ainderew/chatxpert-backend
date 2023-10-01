@@ -26,7 +26,7 @@ class ClickController {
   public async getClicksById(req: Request, res: Response): Promise<any> {
     const businessId = req.params.businessId
     const analyticsres = await MongoDBCAnalytics.find({ businessId: businessId })
-    const { _id: analyticsId } = analyticsres[0]
+    const { _id: analyticsId } = analyticsres[0] 
 
 
     try {
@@ -88,8 +88,8 @@ class ClickController {
         }).exec()
 
         monthlyData.push({
-          month: monthNames[month - 1],
-          clickCount: clicks.length
+          label: monthNames[month - 1],
+          click: clicks.length
         })
       }
 
@@ -121,7 +121,7 @@ class ClickController {
       }).exec()
 
       res.status(200).json(clicks.length)
-      return clicks.length
+      return clicks
     } catch (error) {
       console.error(error)
       res.status(500).json({ error: 'Internal Server Error' })
@@ -163,8 +163,8 @@ class ClickController {
         }).exec()
 
         dailyData.push({
-          date: `${year}-${formattedMonth}-${formattedDay}`,
-          clickCount: clicks.length
+          label: `${formattedDay}`,
+          click: clicks.length
         })
       }
 
