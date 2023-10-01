@@ -9,7 +9,9 @@ class UserController {
     const hashPassword = await bcrypt.hash(password, 10)
     newUser.setEmail(email)
     newUser.setPassword(hashPassword)
-    newUser.setType(type)
+    
+    if(type==='business')newUser.setType(true)
+    else if(type==='customer')newUser.setType(false)
 
     try {
       const findEmail = await MongoDBUser.find({ email: email })
