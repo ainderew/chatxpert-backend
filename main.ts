@@ -7,6 +7,7 @@ import Message from './Models/Message.model'
 import AuthenticationController from './Controllers/Authentication.controller'
 import route from './routes/route'
 import User from './Models/User.model'
+import { ErrorHandler } from './Middleware/error'
 const express = require('express')
 import routes from './routes/route'
 const app = express()
@@ -35,6 +36,7 @@ app.use('/register/customer', cAuthentication.getRegisterData)
 app.use('/login', cAuthentication.loginUser)
 app.use('/getReply', chController.getReply)
 app.use(route)
+app.use(ErrorHandler)
 
 app.listen(config.PORT, () => {
   console.log(`[server]: Server is running at http://localhost:${config.PORT} 🚀🥳`)

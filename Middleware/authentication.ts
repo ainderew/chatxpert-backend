@@ -12,8 +12,7 @@ const AuthenticationSchema = new mongoose.Schema({
 const AuthToken = mongoose.model('Authtoken', AuthenticationSchema)
 
 export const authenticate = async (req:Request, res:Response, next:NextFunction):Promise<any> => {
-  const {authToken} = req.body;
-
+  const authToken = req.headers.authorization?.split(' ')[1];
   if (authToken) {
     try {
       const secretKey = config.SECRET;
@@ -24,20 +23,16 @@ export const authenticate = async (req:Request, res:Response, next:NextFunction)
         return res.status(401).json({ message: 'Token expired' });
       }
 
+      req.body.userId = decodedToken.userId
+      req.body.authToken = authToken
+      next()
+
     } catch (error) {
       return res.status(401).json({ message: 'Invalid token' });
     }
   } else {
-    res.status(401).json({ message: 'No token provided' });
+    res.status(401).json({ message: 'Please Login' });
   }
-
-  const result = await AuthToken.find({token: authToken})
-
-  if (!result){
-    return res.status(401).json({message: 'Invalid token'})
-  }
-
-  next();
 };
 
 

@@ -1,9 +1,9 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import User, { MongoDBUser } from '../Models/User.model'
 import bcrypt from 'bcrypt'
 
 class UserController {
-  public async createNewUser(req: Request, res: Response): Promise<any> {
+  public async createNewUser(req: Request, res: Response, next: NextFunction): Promise<any> {
     const newUser = new User()
     const { email, password, type } = req.body
     const hashPassword = await bcrypt.hash(password, 10)
@@ -14,15 +14,17 @@ class UserController {
     else if(type==='customer')newUser.setType(false)
 
     try {
-      const findEmail = await MongoDBUser.find({ email: email })
+      const userCheck = await MongoDBUser.find({email});
 
-      if (findEmail) {
-        const result = new MongoDBUser(newUser)
-        await result.save()
-        return result
-      } else {
-        res.status(409).json({ error: 'Already Exist' })
+      if(userCheck){
+        next({message: "User credential already exists", status:409 })
+        
       }
+
+
+      const result = new MongoDBUser(newUser)
+      await result.save()
+      return result
     } catch (error) {
       console.log(error)
       res.status(400).json({ error: 'Bad Request' })

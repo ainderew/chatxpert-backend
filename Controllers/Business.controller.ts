@@ -1,18 +1,24 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import Business, { MongoDBBusiness } from '../Models/Business.model'
 import UserController from './User.controller'
 import Analytics from '../Models/Analytics.model'
 import AnalyticsController from './Analytics.controller'
 
 class BusinessController {
-  public async registerBusiness(req: Request, res: Response) {
+  public async registerBusiness(req: Request, res: Response, next:NextFunction) {
     const user = new UserController()
     const newBusiness = new Business()
     const newAnalytics = new AnalyticsController()
     const { name, size, industry } = req.body
 
     try {
-      const savedUser = await user.createNewUser(req, res)
+      const businessCheck = await MongoDBBusiness.find({name});
+
+      if(businessCheck){
+        next({message: "User credential already exists", status:409 })
+      }
+
+      const savedUser = await user.createNewUser(req, res, next)
       if (savedUser && savedUser._id) {
         newBusiness.setBusinessId(savedUser._id)
         newBusiness.setName(name)
@@ -25,7 +31,7 @@ class BusinessController {
         res.status(200).json(result)
       }
     } catch (error) {
-      console.log(error)
+      next(error)
     }
   }
 }
