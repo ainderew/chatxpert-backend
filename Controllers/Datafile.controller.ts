@@ -1,9 +1,9 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import Datafile, { MongoDBDatafile } from '../Models/Datafile.model'
 import axios from 'axios'
 
 class DatafileController {
-  public async saveUploadData(req: Request, res: Response) {
+  public async saveUploadData( req: Request, res: Response, next: NextFunction) {
     try {
       const dataFile = new Datafile()
 
@@ -28,11 +28,11 @@ class DatafileController {
       res.status(200).json(result)
     } catch (error) {
       console.error(error)
-      res.status(500).json({ error: 'Internal Server Error' })
+        next(error)
     }
   }
 
-  public async fileDownload(req: Request, res: Response) {
+  public async fileDownload(req: Request, res: Response, next:NextFunction) {
     const datafileId = req.params.datafileId
 
     try {
@@ -50,11 +50,11 @@ class DatafileController {
       response.data.pipe(res)
     } catch (error) {
       console.error(error)
-      res.status(500).json({ error: 'Internal Server Error' })
+        next(error)
     }
   }
 
-  public async setActive(req: Request, res: Response) {
+  public async setActive(req: Request, res: Response, next:NextFunction) {
     const datafileId = req.params.datafileId
     const { businessId } = req.body
     const dateNow = new Date()
@@ -69,7 +69,7 @@ class DatafileController {
       )
       res.status(200).json({datelastused: dateNow})
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' })
+      next(error)
     }
   }
 
@@ -83,13 +83,15 @@ class DatafileController {
     }
   }
 
-  public async getAllFiles(req: Request, res: Response) {
+  public async getAllFiles(req: Request, res: Response, next:NextFunction) {
     const businessId = req.params.businessId
     try {
+
       const businessFiles = await MongoDBDatafile.find({ businessId }).select('-blobname -path')
+
       res.status(200).json(businessFiles)
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' })
+      next(error)
     }
   }
 }
