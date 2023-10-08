@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import User, { MongoDBUser } from '../Models/User.model'
 import bcrypt from 'bcrypt'
+import { AccountType } from '../Models/_enum'
 
 class UserController {
   public async createNewUser(req: Request, res: Response, next: NextFunction): Promise<any> {
@@ -10,8 +11,8 @@ class UserController {
     newUser.setEmail(email)
     newUser.setPassword(hashPassword)
     
-    if(type==='business')newUser.setType(true)
-    else if(type==='customer')newUser.setType(false)
+    if(type==='business')newUser.setType(AccountType.business)
+    else if(type==='customer')newUser.setType(AccountType.customer)
 
     try {
       const userCheck = await MongoDBUser.find({email});

@@ -27,7 +27,7 @@ class AuthenticationController {
       const token = generateAuthToken(userid.toString())
 
       if(result){
-        res.send({profile: result, token: token})
+        res.send({profile: result, authToken: token})
       }
     }catch(error){
       return next({message:"Invalid Credentials", status:409})
