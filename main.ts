@@ -32,7 +32,7 @@ const cAuthentication = new AuthenticationController(mUser)
 
 //register customer is also created in the routes file, check which is better
 //I am not confident in changing anything here
-app.use('/register/customer', cAuthentication.getRegisterData)
+// app.use('/register/customer', cAuthentication.getRegisterData)
 app.use('/login', cAuthentication.loginUser)
 app.use('/getReply', chController.getReply)
 app.use(route)

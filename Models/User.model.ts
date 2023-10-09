@@ -1,9 +1,10 @@
 import mongoose from 'mongoose'
+import { AccountType } from './_enum'
 
 const UserSchema = new mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
-  type: { type: Boolean, required: true }
+  type: { type: String, required: true }
 })
 export const MongoDBUser = mongoose.model('User', UserSchema)
 
@@ -11,13 +12,13 @@ class User {
   private userid: string
   private email: string
   private password: string
-  private type: boolean
+  private type: AccountType
 
   constructor() {
     this.email = ''
     this.password = ''
     this.userid = ''
-    this.type = true
+    this.type = AccountType.customer
   }
 
   public setEmail(email: string) {
@@ -36,11 +37,11 @@ class User {
     return this.password
   }
 
-  public setType(type: boolean) {
+  public setType(type: AccountType) {
     this.type = type
   }
 
-  public getType(): boolean {
+  public getType(): AccountType {
     return this.type
   }
 

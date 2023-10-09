@@ -46,7 +46,6 @@ class ChatController {
       const response = await axios.post('http://localhost:2121/', {
         data: userInput
       })
-      console.log(response.data)
       const aiMessage = new Message(response.data)
       aiMessage.setType(true)
       aiMessage.saveMessage()
