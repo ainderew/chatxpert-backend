@@ -17,9 +17,9 @@ class UserController {
     try {
       const userCheck = await MongoDBUser.find({email});
 
-      if(userCheck){
+      if(userCheck.length){
         next({message: "User credential already exists", status:409 })
-        
+        return
       }
 
 
@@ -27,8 +27,7 @@ class UserController {
       await result.save()
       return result
     } catch (error) {
-      console.log(error)
-      res.status(400).json({ error: 'Bad Request' })
+      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
     }
   }
 
