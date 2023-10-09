@@ -112,7 +112,7 @@ class ClickController {
       res.status(500).json({ error: 'Internal Server Error' })
     }
   } */
-  public async getClicksPerMonthInYear(req: Request, res: Response): Promise<any> {
+  public async getClicksPerMonth(req: Request, res: Response): Promise<any> {
     const monthNames = [
       'January', 'February', 'March', 'April', 'May', 'June', 'July',
       'August', 'September', 'October', 'November', 'December'
@@ -200,7 +200,7 @@ class ClickController {
     }
   }
 
-  public async getClicksPerDayInMonth(req: Request, res: Response): Promise<any> {
+  public async getClicksPerDay(req: Request, res: Response): Promise<any> {
     const year = parseInt(req.params.year, 10);
     const month = parseInt(req.params.month, 10);
     const businessId = req.params.businessId;
