@@ -1,8 +1,9 @@
 import nodemailer from 'nodemailer'
-import { MongoDBUser } from "../Models/User.model";
-import { AccountType } from '../Models/_enum';
-import config from '../config';
-import { Filter } from './types';
+import { MongoDBUser } from '../Models/User.model'
+import { AccountType } from '../Models/_enum'
+import config from '../config'
+import { Filter } from './types'
+import { getMaxListeners } from 'events'
 // dotenv.config()
 
 interface EmailData {
@@ -19,8 +20,8 @@ const configMail = {
   secure: false,
   auth: {
     user: config.MAIL_USER!,
-    pass: config.MAIL_PASS!
-  }
+    pass: config.MAIL_PASS!,
+  },
 }
 
 const send = (data: EmailData) => {
@@ -31,22 +32,22 @@ const send = (data: EmailData) => {
   })
 }
 
+export async function sendReminderEmail() {
+  console.log('asda')
+  const businessEmails = (await MongoDBUser.find({ type: AccountType.business }).lean()).map(
+    business => business.email,
+  )
 
-
-async function sendReminderEmail(){
-  const businessEmails = (await MongoDBUser.find({type: AccountType.business}).lean()).map(business => business.email)
-
-  const defaultReminder:EmailData = {
+  const defaultReminder: EmailData = {
     from: config.MAIL_USER,
-    subject: "Reminder",
-    text: "Greetings! Your data might be outdated",
-    to: ""
+    subject: 'Reminder',
+    text: 'Greetings! Your data might be outdated',
+    to: '',
   }
 
-  for(const email of businessEmails){
+  for (const email of businessEmails) {
     defaultReminder.to = email
     send(defaultReminder)
-
   }
 }
 

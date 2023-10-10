@@ -1,4 +1,3 @@
-
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -15,8 +14,7 @@ const config: Config = {
   PORT: process.env.PORT || '3000',
   SECRET: process.env.secret || '',
   MAIL_USER: process.env.MAIL_USER || 'default@gmail.com',
-  MAIL_PASS: process.env.MAIL_PASS || ''
+  MAIL_PASS: process.env.MAIL_PASS || '',
 }
 
-
-export default config;
+export default config
