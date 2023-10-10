@@ -4,7 +4,7 @@ const NotificationSchema = new mongoose.Schema({
   businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true },
   notification: { type: String, required: true },
   isViewed: { type: Boolean },
-  dateToNotify: { type: Date }
+  dateNotified: { type: Date }
 })
 
 export const MongoDBCNotification = mongoose.model('Notification', NotificationSchema)
@@ -14,14 +14,14 @@ class Notification {
   private businessId: string
   private notification: string
   private isViewed: boolean
-  private dateToNotify: Date
+  private dateNotified: Date
 
   constructor() {
     this.notificaionId = ''
     this.businessId = ''
     this.notification = ''
     this.isViewed = false
-    this.dateToNotify = new Date()
+    this.dateNotified = new Date()
   }
 
   public getNotificationId(): string {
@@ -52,12 +52,12 @@ class Notification {
     this.isViewed = isViewed
   }
 
-  public getDateToNotify(): Date {
-    return this.dateToNotify
+  public getDateNotified(): Date {
+    return this.dateNotified
   }
 
-  public setDateToNotify(dateToNotify: Date) {
-    this.dateToNotify = dateToNotify
+  public setDateNotified(dateNotified: Date) {
+    this.dateNotified = dateNotified
   }
 
   //   public async saveNotificationData(): Promise<void> {

@@ -1,17 +1,11 @@
-import { sendReminderEmail } from '../utils/mail'
+import NotificationController from '../Controllers/Notification.controller'
 import { jobType } from '../utils/types'
 
-function example() {
-  console.log('I RUN EVERY MINUTE')
-}
+const notification = new NotificationController()
 
-function exampleFunction() {
-  console.log('I RUN EVERY HOUR')
-}
 
 export const scheduledJobsLibrary: jobType[] = [
-  { function: example, cronPattern: '* * * * *' },
-  { function: exampleFunction, cronPattern: '0 * * * *' },
-  { function: sendReminderEmail, cronPattern: '0 8 1 * *' },
+  { function: notification.sendReminderEmail, cronPattern: '* * * * *' },
+  { function: notification.sendReminderEmail, cronPattern: '0 8 1 * *' },
   //butang ninyo are pre ug gusto mo naa idugang na function na scheduled
 ]

@@ -36,4 +36,3 @@ route.get('/getProfile',authenticate, auth.getProfile)
 
 //route.get('/api/yearclicks/bymonth/:analyticsId/:year', click.getClicksByMonthInYear)
 export default route
-
