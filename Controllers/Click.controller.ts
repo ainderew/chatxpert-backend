@@ -225,7 +225,7 @@ class ClickController {
               $gte: startDate,
               $lte: endDate
             },
-            customerAge: { $gt: 0 } // Exclude age 0
+           
           }
         },
         {
@@ -249,17 +249,17 @@ class ClickController {
       const ageCounts = { unknown: 0, teen: 0, youngAdult: 0, adult: 0,  seniors: 0 }; // Initialize age count object
   
       dailyData.forEach((data) => {
-        const day = data._id - 1; // Adjust for 0-based index
+        const day = data._id - 1;
         clicks[day] = data.count;
-        // Update age counts
         ageCounts.unknown+= data.unknown;
         ageCounts.teen += data.teen;
         ageCounts.youngAdult += data.youngAdult;
         ageCounts.adult += data.adult;
         ageCounts.seniors += data.senior;
       });
-  
+
       res.status(200).json({ clicks, labels, ageCounts });
+
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });

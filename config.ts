@@ -8,7 +8,7 @@ type Config = {
 }
 
 const config: Config = {
-  DB_URL: process.env.DB || '',
+  DB_URL: process.env.dbURL || '',
   PORT: process.env.PORT || '3000',
   SECRET: process.env.secret || ''
 }
