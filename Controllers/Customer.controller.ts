@@ -11,9 +11,9 @@ class CustomerController {
     try {
       const customerCheck = await MongoDBCustomer.find({username});
 
-      if(customerCheck){
+      if(customerCheck.length){
         next({message: "User credential already exists", status:409 })
-        
+        return
       }
 
       const savedUser = await user.createNewUser(req, res, next)
@@ -27,8 +27,7 @@ class CustomerController {
         res.status(200).json(result)
       }
     } catch (error) {
-      console.log(error) 
-      next(error)
+      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
     }
   }
 }

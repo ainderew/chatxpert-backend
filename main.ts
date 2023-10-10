@@ -8,6 +8,8 @@ import AuthenticationController from './Controllers/Authentication.controller'
 import route from './routes/route'
 import User from './Models/User.model'
 import { ErrorHandler } from './Middleware/error'
+import initializeScheduledJobs from './CronJobs/initializeCronJobs'
+
 const express = require('express')
 import routes from './routes/route'
 const app = express()
@@ -22,6 +24,8 @@ app.use(bodyParser.json())
 app.get('/', (req: any, res: any) => {
   res.send('BRAMK coming soon')
 })
+
+initializeScheduledJobs()
 // const mCustomer = new Customer()
 const mUser = new User()
 const cMessage = new Message('')

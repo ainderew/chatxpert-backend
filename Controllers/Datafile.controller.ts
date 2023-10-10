@@ -6,9 +6,7 @@ class DatafileController {
   public async saveUploadData( req: Request, res: Response, next: NextFunction) {
     try {
       const dataFile = new Datafile()
-
       const { businessId, originalname, blobname, path } = req.body
-
       const dateuploaded = new Date()
       const datelastused = new Date()
 
@@ -27,8 +25,7 @@ class DatafileController {
 
       res.status(200).json(result)
     } catch (error) {
-      console.error(error)
-        next(error)
+      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
     }
   }
 
@@ -49,8 +46,7 @@ class DatafileController {
 
       response.data.pipe(res)
     } catch (error) {
-      console.error(error)
-        next(error)
+      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
     }
   }
 
@@ -69,17 +65,17 @@ class DatafileController {
       )
       res.status(200).json({datelastused: dateNow})
     } catch (error) {
-      next(error)
+      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
     }
   }
 
-  public async findActive(req: Request, res: Response) {
+  public async findActive(req: Request, res: Response, next:NextFunction) {
     const businessId = req.params.businessId
     try {
       const findActiveFile = await MongoDBDatafile.findOne({ status: true, businessId })
       res.status(200).json(findActiveFile)
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' })
+      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
     }
   }
 
@@ -91,7 +87,7 @@ class DatafileController {
 
       res.status(200).json(businessFiles)
     } catch (error) {
-      next(error)
+      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
     }
   }
 }
