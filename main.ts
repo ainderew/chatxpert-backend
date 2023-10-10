@@ -11,7 +11,7 @@ import { ErrorHandler } from './Middleware/error'
 import initializeScheduledJobs from './CronJobs/initializeCronJobs'
 
 const express = require('express')
-
+import routes from './routes/route'
 const app = express()
 
 const db = new Database(config.DB_URL)

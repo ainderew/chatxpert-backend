@@ -6,7 +6,7 @@ class CustomerController {
   public async registerCustomer(req: Request, res: Response, next: NextFunction) {
     const user = new UserController()
     const newCustomer = new Customer()
-    const { username } = req.body
+    const { username, birthdate, age } = req.body
 
     try {
       const customerCheck = await MongoDBCustomer.find({username});
@@ -20,7 +20,8 @@ class CustomerController {
       if (savedUser && savedUser._id) {
         newCustomer.setCustomerId(savedUser._id)
         newCustomer.setUsername(username)
-
+        newCustomer.setBirthdate(birthdate)
+        newCustomer.setAge(age)
         const result = new MongoDBCustomer(newCustomer)
         await result.save()
         res.status(200).json(result)

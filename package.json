@@ -12,6 +12,7 @@
   "author": "Andrew Pinon",
   "license": "ISC",
   "dependencies": {
+    "@azure/storage-blob": "^12.16.0",
     "@types/cors": "^2.8.13",
     "@types/jsonwebtoken": "^9.0.2",
     "axios": "^1.5.0",

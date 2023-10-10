@@ -30,7 +30,6 @@ class UserController {
       next({message: "Internal Server Error. Please contact the administrator.", status:500 })
     }
   }
-
 }
 
 export default UserController
