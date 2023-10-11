@@ -22,7 +22,7 @@ const auth = new AuthenticationController(mUser)
 /* route.post('/api/analytics/:businessId', analytics.createAnalytics) */
 route.post('/api/register/customer', customer.registerCustomer)
 route.post('/api/register/business', business.registerBusiness)
-route.post('/api/file/fileupload', isAuth , datafile.saveUploadData)
+route.post('/api/file/fileupload', authenticate , datafile.saveUploadData)
 route.get('/api/file/getallfiles/:businessId', datafile.getAllFiles)
 route.get('/api/file/download/:datafileId', datafile.fileDownload)
 route.post('/api/file/trigger/:datafileId', datafile.setActive)
@@ -33,6 +33,7 @@ route.get('/api/clicks/:businessId/:year', click.getClicksByIdInYear)
 route.get('/api/yearlyclicks/:businessId/:year', click.getClicksPerMonth)
 route.get('/api/monthlyclicks/:businessId/:year/:month', click.getClicksPerDay)
 route.get('/getProfile',authenticate, auth.getProfile)
+route.get('/test',(req, res) => res.send("HELLo"))
 
 //route.get('/api/yearclicks/bymonth/:analyticsId/:year', click.getClicksByMonthInYear)
 export default route
