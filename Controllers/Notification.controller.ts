@@ -25,13 +25,41 @@ class NotificationController {
     }
   }
   
-  public async findBusinessNotifications(res: Response, req: Request, next: NextFunction) {
+  public async findBusinessNotifications( req: Request, res: Response,  next: NextFunction): Promise<any> {
     const businessId = req.params.businessId
     try {
 
       const notificationList = await MongoDBCNotification.find({ businessId })
 
       res.status(200).json(notificationList)
+    } catch (error) {
+      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
+    }
+  }
+
+  public async updateIsViewed( req: Request, res: Response,  next: NextFunction): Promise<any> {
+    const businessId = req.params.businessId
+    try {
+
+      await MongoDBCNotification.updateMany({ businessId: businessId }, { $set: { isViewed: true } }) 
+
+      res.status(200).json()
+    } catch (error) {
+      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
+    }
+  }
+
+  public async checkHasView( req: Request, res: Response,  next: NextFunction): Promise<any> {
+    const businessId = req.params.businessId
+    try {
+      let hasViews = false;
+      const check= await MongoDBCNotification.find({ businessId: businessId, isViewed: true }) 
+
+      if(check.length){
+        hasViews = true
+      }
+
+      res.status(200).json({hasView: hasViews})
     } catch (error) {
       next({message: "Internal Server Error. Please contact the administrator.", status:500 })
     }
