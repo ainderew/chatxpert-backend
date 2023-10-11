@@ -74,7 +74,9 @@ const htmlMailTemplate = `<!DOCTYPE html>
 <body>
     <div>
         <header class="headercontainer">
-            <img src="https://i.ibb.co/MBrjsCp/logo.png" alt="logo" border="0" />
+            <a href="https://cap-client-two.vercel.app/" target="_blank">
+                <img src="https://i.ibb.co/MBrjsCp/logo.png" alt="logo" border="0" />
+            </a>
             <h2 class="headertext">BRAMK</h2>
         </header>
         <h3 class="articlehead">Friendly Reminder:</h3>
@@ -88,7 +90,7 @@ const htmlMailTemplate = `<!DOCTYPE html>
                 request your assistance in reviewing and updating your uploaded information promptly.
             </section>
             <section class="buttoncontainer">
-                <a href="" target="_blank"><button>Update Data Now</button></a>
+                <a href="https://cap-client-two.vercel.app/login" target="_blank"><button>Update Data Now</button></a>
             </section>
             <section class="contenttext">
                 Your efforts will enhance the accuracy of our insights and services, 

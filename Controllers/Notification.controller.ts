@@ -8,7 +8,7 @@ import htmlMailTemplate from '../utils/message'
 
 class NotificationController {
 
-  public async addNotification(email: string) {
+  public async addNotification(email: string): Promise<void> {
     const newNotif = new Notification()
     try {
       const business = (await MongoDBUser.find({email})).map( user=> user._id)
@@ -19,6 +19,7 @@ class NotificationController {
 
         const result = new MongoDBCNotification(newNotif)
         await result.save()
+        
       }
       } catch (error) {
         console.log(error)
@@ -66,6 +67,7 @@ class NotificationController {
   }
 
  public async sendReminderEmail() {
+  const myInstance = new NotificationController();
    try {
     const businessEmails = (await MongoDBUser.find({ type: AccountType.business }).lean()).map(
       business => business.email,
@@ -78,11 +80,13 @@ class NotificationController {
       html: htmlMailTemplate,
       to: '',
     }
-  
-    for (const email of businessEmails) {
-      defaultReminder.to = email
-      send(defaultReminder)
-      this.addNotification(email)
+
+    if(businessEmails.length){
+      for (const email of businessEmails) {
+        defaultReminder.to = email
+        send(defaultReminder)
+        void myInstance.addNotification(email)
+      }
     }
     
   } catch (error) {
