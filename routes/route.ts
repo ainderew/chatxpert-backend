@@ -37,7 +37,7 @@ route.get('/api/monthlyclicks/:businessId/:year/:month', click.getClicksPerDay)
 route.get('/getProfile',authenticate, auth.getProfile)
 route.get('/api/notification/getnotifications/:businessId', notification.findBusinessNotifications)
 route.get('/api/notification/hasnotification/:businessId', notification.checkHasView)
-route.get('/api/notification/trigger/:businessId', notification.updateIsViewed)
+route.post('/api/notification/trigger/', notification.updateIsViewed)
 route.get('/test',(req, res) => res.send("HELLo"))
 
 //route.get('/api/yearclicks/bymonth/:analyticsId/:year', click.getClicksByMonthInYear)

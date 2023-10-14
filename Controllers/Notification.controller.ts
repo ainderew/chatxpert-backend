@@ -8,15 +8,16 @@ import htmlMailTemplate from '../utils/message'
 
 class NotificationController {
 
-  public async addNotification(email: string): Promise<void> {
+  public async addNotification(email: string, title: string, message: string): Promise<void> {
     const newNotif = new Notification()
     try {
       const business = (await MongoDBUser.find({email})).map( user=> user._id)
 
       if(business.length){
         newNotif.setBusinessId(business[0].toString())
-        newNotif.setNotification("You're uploaded information might be outdated. Please ensure that your information is up to date.")
-
+        newNotif.setTitle(title)
+        newNotif.setMessage(message)
+        
         const result = new MongoDBCNotification(newNotif)
         await result.save()
         
@@ -39,7 +40,7 @@ class NotificationController {
   }
 
   public async updateIsViewed( req: Request, res: Response,  next: NextFunction): Promise<any> {
-    const businessId = req.params.businessId
+    const { businessId } = req.body
     try {
 
       await MongoDBCNotification.updateMany({ businessId: businessId }, { $set: { isViewed: true } }) 
@@ -53,14 +54,9 @@ class NotificationController {
   public async checkHasView( req: Request, res: Response,  next: NextFunction): Promise<any> {
     const businessId = req.params.businessId
     try {
-      let hasViews = false;
-      const check= await MongoDBCNotification.find({ businessId: businessId, isViewed: true }) 
+      const check= await MongoDBCNotification.count({ businessId: businessId, isViewed: false }) 
 
-      if(check.length){
-        hasViews = true
-      }
-
-      res.status(200).json({hasView: hasViews})
+      res.status(200).json({count: check})
     } catch (error) {
       next({message: "Internal Server Error. Please contact the administrator.", status:500 })
     }
@@ -82,10 +78,12 @@ class NotificationController {
     }
 
     if(businessEmails.length){
+      const title = "Monthly Reminder: Data Update";
+      const message = "You're uploaded information might be outdated. Please ensure that your information is up to date.";
       for (const email of businessEmails) {
         defaultReminder.to = email
         send(defaultReminder)
-        void myInstance.addNotification(email)
+        void myInstance.addNotification(email, title, message)
       }
     }
     
