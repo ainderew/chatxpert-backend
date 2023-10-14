@@ -24,7 +24,7 @@ const notification = new NotificationController()
 /* route.post('/api/analytics/:businessId', analytics.createAnalytics) */
 route.post('/api/register/customer', customer.registerCustomer)
 route.post('/api/register/business', business.registerBusiness)
-route.post('/api/file/fileupload', isAuth , datafile.saveUploadData)
+route.post('/api/file/fileupload', authenticate , datafile.saveUploadData)
 route.get('/api/file/getallfiles/:businessId', datafile.getAllFiles)
 route.get('/api/file/download/:datafileId', datafile.fileDownload)
 route.post('/api/file/trigger/:datafileId', datafile.setActive)
@@ -38,5 +38,7 @@ route.get('/getProfile',authenticate, auth.getProfile)
 route.get('/api/notification/getnotifications/:businessId', notification.findBusinessNotifications)
 route.get('/api/notification/hasnotification/:businessId', notification.checkHasView)
 route.get('/api/notification/trigger/:businessId', notification.updateIsViewed)
+route.get('/test',(req, res) => res.send("HELLo"))
+
 //route.get('/api/yearclicks/bymonth/:analyticsId/:year', click.getClicksByMonthInYear)
 export default route
