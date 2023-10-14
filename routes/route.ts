@@ -8,6 +8,7 @@ import { isAuth } from '../Middleware/auth'
 import AuthenticationController from '../Controllers/Authentication.controller'
 import { authenticate } from '../Middleware/authentication'
 import User from '../Models/User.model'
+import NotificationController from '../Controllers/Notification.controller'
 
 const route = express()
 const mUser = new User()
@@ -18,6 +19,7 @@ const datafile = new DatafileController()
 const click = new ClickController()
 const analytics = new AnalyticsController()
 const auth = new AuthenticationController(mUser)
+const notification = new NotificationController()
 
 /* route.post('/api/analytics/:businessId', analytics.createAnalytics) */
 route.post('/api/register/customer', customer.registerCustomer)
@@ -33,8 +35,10 @@ route.get('/api/clicks/:businessId/:year', click.getClicksByIdInYear)
 route.get('/api/yearlyclicks/:businessId/:year', click.getClicksPerMonth)
 route.get('/api/monthlyclicks/:businessId/:year/:month', click.getClicksPerDay)
 route.get('/getProfile',authenticate, auth.getProfile)
+route.get('/api/notification/getnotifications/:businessId', notification.findBusinessNotifications)
+route.get('/api/notification/hasnotification/:businessId', notification.checkHasView)
+route.post('/api/notification/trigger/', notification.updateIsViewed)
 route.get('/test',(req, res) => res.send("HELLo"))
 
 //route.get('/api/yearclicks/bymonth/:analyticsId/:year', click.getClicksByMonthInYear)
 export default route
-

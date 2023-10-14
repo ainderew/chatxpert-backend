@@ -1,10 +1,11 @@
-import mongoose, { DateExpression } from 'mongoose'
+import mongoose from 'mongoose'
 
 const NotificationSchema = new mongoose.Schema({
   businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true },
-  notification: { type: String, required: true },
+  title: { type: String, required: true },
+  message: { type: String, required: true },
   isViewed: { type: Boolean },
-  dateToNotify: { type: Date }
+  dateNotified: { type: Date }
 })
 
 export const MongoDBCNotification = mongoose.model('Notification', NotificationSchema)
@@ -12,16 +13,18 @@ export const MongoDBCNotification = mongoose.model('Notification', NotificationS
 class Notification {
   private notificaionId: string
   private businessId: string
-  private notification: string
+  private title: string
+  private message: string
   private isViewed: boolean
-  private dateToNotify: Date
+  private dateNotified: Date
 
   constructor() {
     this.notificaionId = ''
     this.businessId = ''
-    this.notification = ''
+    this.title = ''
+    this.message = ''
     this.isViewed = false
-    this.dateToNotify = new Date()
+    this.dateNotified = new Date()
   }
 
   public getNotificationId(): string {
@@ -36,12 +39,20 @@ class Notification {
     this.businessId = businessId
   }
 
-  public getNotification(): string {
-    return this.notification
+  public getTitle(): string {
+    return this.title
   }
 
-  public setNotification(notification: string) {
-    this.notification = notification
+  public setTitle(title: string) {
+    this.title = title
+  }
+
+  public getMessage(): string {
+    return this.message
+  }
+
+  public setMessage(message: string) {
+    this.message = message
   }
 
   public getIsViewed(): boolean {
@@ -52,27 +63,13 @@ class Notification {
     this.isViewed = isViewed
   }
 
-  public getDateToNotify(): Date {
-    return this.dateToNotify
+  public getDateNotified(): Date {
+    return this.dateNotified
   }
 
-  public setDateToNotify(dateToNotify: Date) {
-    this.dateToNotify = dateToNotify
+  public setDateNotified(dateNotified: Date) {
+    this.dateNotified = dateNotified
   }
-
-  //   public async saveNotificationData(): Promise<void> {
-  //     try {
-  //       new MongoDBCNotification({
-  //		notificationId: this.notificationId
-  //         	businessId: this.businessId
-  //			notification: this.notification
-  //			isViewed: this.isViewed
-  //			dateToNotify: this.dateToNotify
-  //       }).save()
-  //     } catch (err) {
-  //       throw err
-  //     }
-  //   }
 }
 
 export default Notification
