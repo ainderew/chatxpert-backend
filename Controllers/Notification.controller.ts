@@ -45,7 +45,7 @@ class NotificationController {
 
       await MongoDBCNotification.updateMany({ businessId: businessId }, { $set: { isViewed: true } }) 
 
-      res.status(200).json()
+      res.status(200).json({message: "Updated Successfully"})
     } catch (error) {
       next({message: "Internal Server Error. Please contact the administrator.", status:500 })
     }
