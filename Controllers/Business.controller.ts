@@ -32,7 +32,7 @@ class BusinessController {
         res.status(200).json(result)
       }
     } catch (error) {
-      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
+      next({message: "User registration failed due to a potential server error. Try again later.", status:500 })
     }
   }
 }

@@ -7,5 +7,5 @@ export interface CustomError{
 
 export const ErrorHandler = (err: CustomError , req:Request , res: Response, next:NextFunction) =>{
   res.header("Content-Type", 'application/json')
-  return res.status(err.status).json({error:err.message})
+  return res.status(err.status).json({message:err.message})
 }

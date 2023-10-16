@@ -25,7 +25,7 @@ class DatafileController {
 
       res.status(200).json(result)
     } catch (error) {
-      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
+      next({message: "File upload failed. Try again later.", status:500 })
     }
   }
 
@@ -46,7 +46,7 @@ class DatafileController {
 
       response.data.pipe(res)
     } catch (error) {
-      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
+      next({message: "Fil could not be downloaded. Try again later.", status:500 })
     }
   }
 
@@ -65,7 +65,7 @@ class DatafileController {
       )
       res.status(200).json({datelastused: dateNow})
     } catch (error) {
-      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
+      next({message: "File activation failed. Try again later.", status:500 })
     }
   }
 
@@ -75,7 +75,7 @@ class DatafileController {
       const findActiveFile = await MongoDBDatafile.findOne({ status: true, businessId })
       res.status(200).json(findActiveFile)
     } catch (error) {
-      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
+      next({message: "Cannot find active file. Try again later.", status:500 })
     }
   }
 
@@ -87,7 +87,7 @@ class DatafileController {
 
       res.status(200).json(businessFiles)
     } catch (error) {
-      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
+      next({message:  "The files you're looking for are currently unavailable. Retry later.", status:500 })
     }
   }
 }

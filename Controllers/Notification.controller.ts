@@ -47,7 +47,7 @@ class NotificationController {
 
       res.status(200).json({message: "Updated Successfully"})
     } catch (error) {
-      next({message: "Internal Server Error. Please contact the administrator.", status:500 })
+      next({message: "Notifications are currently unavailable. Please try again later.", status:500 })
     }
   }
 
