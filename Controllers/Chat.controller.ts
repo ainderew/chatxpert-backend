@@ -3,6 +3,7 @@ import Message from '../Models/Message.model'
 import Channel from '../Models/Channel.model'
 import AnalyticsModel from '../Models/Analytics.model'
 import { SEARCH_TERMS } from '../utils/constants'
+import config from '../config'
 
 class ChatController {
   private model: any
@@ -43,7 +44,7 @@ class ChatController {
     }
 
     try {
-      const response = await axios.post('http://localhost:2121/', {
+      const response = await axios.post(config.BRAMK_AI_ENDPOINT, {
         data: userInput
       })
       const aiMessage = new Message(response.data)

@@ -7,6 +7,7 @@ type Config = {
   SECRET: string
   MAIL_USER: string
   MAIL_PASS: string
+  BRAMK_AI_ENDPOINT: string
 }
 
 const config: Config = {
@@ -15,6 +16,7 @@ const config: Config = {
   SECRET: process.env.secret || '',
   MAIL_USER: process.env.MAIL_USER || 'default@gmail.com',
   MAIL_PASS: process.env.MAIL_PASS || '',
+  BRAMK_AI_ENDPOINT: process.env.BRAMK_AI_ENDPOINT || 'http://localhost:2121',
 }
 
 export default config
