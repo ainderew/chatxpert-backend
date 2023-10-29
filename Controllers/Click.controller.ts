@@ -6,7 +6,7 @@ import { MongoDBCustomer } from '../Models/Customer.model'
 class ClickController {
   public async createClick(req: Request, res: Response): Promise<any> {
     const newClick = new Click()
-    const date = new Date('2023-03-07T17:03:47.584+00:00')
+    const date = new Date()
     const businessId = req.params.businessId
     const customerId = req.params.customerId
 
