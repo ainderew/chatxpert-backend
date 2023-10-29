@@ -5,7 +5,6 @@ const BusinessSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
   size: { type: String },
   industry: { type: String, required: true },
-  description: {type: String, required: true}
 })
 
 export const MongoDBBusiness = mongoose.model('Business', BusinessSchema)
