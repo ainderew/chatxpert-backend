@@ -4,8 +4,7 @@ const BusinessSchema = new mongoose.Schema({
   businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   name: { type: String, required: true, unique: true },
   size: { type: String },
-  industry: { type: String, required: true },
-  description: {type: String, required: true}
+  industry: { type: String, required: true }
 })
 
 export const MongoDBBusiness = mongoose.model('Business', BusinessSchema)
