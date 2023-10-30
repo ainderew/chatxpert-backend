@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const BusinessSchema = new mongoose.Schema({
   businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   name: { type: String, required: true, unique: true },
-  size: { type: Number },
+  size: { type: String },
   industry: { type: String, required: true }
 })
 
@@ -12,13 +12,13 @@ export const MongoDBBusiness = mongoose.model('Business', BusinessSchema)
 class Business {
   private businessId: string
   private name: string
-  private size: number
+  private size: string
   private industry: string
 
   constructor() {
     this.businessId = ''
     this.name = ''
-    this.size = 0
+    this.size = ''
     this.industry = ''
   }
 
@@ -38,11 +38,11 @@ class Business {
     return this.name
   }
 
-  public setSize(size: number): void {
+  public setSize(size: string): void {
     this.size = size
   }
 
-  public getSize(): number {
+  public getSize(): string {
     return this.size
   }
 
@@ -52,18 +52,6 @@ class Business {
 
   public getIndustry(): string {
     return this.industry
-  }
-
-  public async saveBusinessData(): Promise<void> {
-    try {
-      new MongoDBBusiness({
-        businessId: this.businessId,
-        name: this.name,
-        size: this.size
-      }).save()
-    } catch (err) {
-      throw err
-    }
   }
 }
 
