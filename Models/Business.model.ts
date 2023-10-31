@@ -4,7 +4,11 @@ const BusinessSchema = new mongoose.Schema({
   businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   name: { type: String, required: true, unique: true },
   size: { type: String },
+<<<<<<< HEAD
   industry: { type: String, required: true },
+=======
+  industry: { type: String, required: true }
+>>>>>>> origin
 })
 
 export const MongoDBBusiness = mongoose.model('Business', BusinessSchema)
