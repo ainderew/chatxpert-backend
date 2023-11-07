@@ -12,9 +12,13 @@ import mongoose from 'mongoose'
 ) */
 
 const ClickSchema = new mongoose.Schema({
-  analyticsId: { type: mongoose.Schema.Types.ObjectId, ref: 'Analytics', required: true },
+  analyticsId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Analytics',
+    required: true,
+  },
   dateclicked: { type: Date, required: true },
-  customerAge: { type: Number, required: false}
+  customerAge: { type: Number, required: false },
 })
 
 export const MongoDBClick = mongoose.model('Click', ClickSchema)
@@ -52,12 +56,11 @@ class Click {
   }
 
   public setCustomerAge(customerAge: number): void {
-    this.customerAge = customerAge 
+    this.customerAge = customerAge
   }
   public getCustomerAge(): number {
     return this.customerAge
   }
-
 
   //   public async saveAnalyticsData(): Promise<void> {
   //     try {
