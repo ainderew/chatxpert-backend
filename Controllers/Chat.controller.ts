@@ -53,8 +53,6 @@ class ChatController {
 
       res.send({ content: response.data, role: 'ai' })
     } catch (error) {
-      // Handle error
-      console.log(error)
       res.status(500).send('An error occurred')
     }
   }
@@ -64,7 +62,6 @@ const getSearchTerm = (userInput: any): string[] => {
   const lastInput = userInput[userInput.length - 1].content
 
   const result = SEARCH_TERMS.filter(term => lastInput.toLowerCase().includes(term))
-  console.log(result)
   return result
 }
 

@@ -34,10 +34,8 @@ class BusinessController {
         newBusiness.setSize(size)
         newBusiness.setIndustry(industry)
         newAnalytics.createAnalytics(savedUser._id)
-        console.log(newBusiness)
         const result = new MongoDBBusiness(newBusiness)
         await result.save()
-        console.log(result)
         res.status(200).json(result)
       }
     } catch (error) {
