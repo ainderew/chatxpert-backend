@@ -5,8 +5,6 @@ class AnalyticsController {
   public async createAnalytics(businessID: string): Promise<any> {
     const newAnalytics = new Analytics()
     
-   
-    console.log(businessID)
     newAnalytics.setBusinessId(businessID)
     newAnalytics.setClickCounts(0)
     try {
@@ -14,7 +12,6 @@ class AnalyticsController {
       await analyticsResult.save()
    
     } catch (error) {
-      console.log(error)
       console.error(error)
     }
   }
