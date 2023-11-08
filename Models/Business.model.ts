@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const BusinessSchema = new mongoose.Schema({
   businessId: {
@@ -9,54 +9,90 @@ const BusinessSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
   size: { type: String },
   industry: { type: String, required: true },
-})
+  location: {
+    country: { type: String },
+    province: { type: String },
+    cityOrMunicipality: { type: String },
+    specifics: { type: String },
+  },
+});
 
-export const MongoDBBusiness = mongoose.model('Business', BusinessSchema)
+export const MongoDBBusiness = mongoose.model('Business', BusinessSchema);
 
 class Business {
-  private businessId: string
-  private name: string
-  private size: string
-  private industry: string
+  private businessId: string;
+  private name: string;
+  private size: string;
+  private industry: string;
+  private location: {
+    country: string;
+    province: string;
+    cityOrMunicipality: string;
+    specifics: string;
+  };
 
   constructor() {
-    this.businessId = ''
-    this.name = ''
-    this.size = ''
-    this.industry = ''
+    this.businessId = '';
+    this.name = '';
+    this.size = '';
+    this.industry = '';
+    this.location = {
+      country: '',
+      province: '',
+      cityOrMunicipality: '',
+      specifics: '',
+    };
   }
 
   public setBusinessId(businessId: string): void {
-    this.businessId = businessId
+    this.businessId = businessId;
   }
 
   public getBusinessId(): string {
-    return this.businessId
+    return this.businessId;
   }
 
   public setName(name: string): void {
-    this.name = name
+    this.name = name;
   }
 
   public getName(): string {
-    return this.name
+    return this.name;
   }
 
   public setSize(size: string): void {
-    this.size = size
+    this.size = size;
   }
 
   public getSize(): string {
-    return this.size
+    return this.size;
   }
 
   public setIndustry(industry: string): void {
-    this.industry = industry
+    this.industry = industry;
   }
 
   public getIndustry(): string {
-    return this.industry
+    return this.industry;
+  }
+
+  public setLocation(location: {
+    country: string;
+    province: string;
+    cityOrMunicipality: string;
+    specifics: string;
+  }): void {
+    this.location = location;
+  }
+
+  public getLocation(): {
+    country: string;
+    province: string;
+    cityOrMunicipality: string;
+    specifics: string;
+  } {
+    return this.location;
   }
 }
 
-export default Business
+export default Business;

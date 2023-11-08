@@ -17,7 +17,7 @@ class BusinessController {
     const user = new UserController()
     const newBusiness = new Business()
     const newAnalytics = new AnalyticsController()
-    const { name, size, industry } = req.body
+    const { name, size, industry, location } = req.body
 
     try {
       const businessCheck = await MongoDBBusiness.find({ name })
@@ -34,6 +34,7 @@ class BusinessController {
         newBusiness.setSize(size)
         newBusiness.setIndustry(industry)
         newAnalytics.createAnalytics(savedUser._id)
+        newBusiness.setLocation(location)
         console.log(newBusiness)
         const result = new MongoDBBusiness(newBusiness)
         await result.save()
