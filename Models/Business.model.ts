@@ -15,6 +15,8 @@ const BusinessSchema = new mongoose.Schema({
     cityOrMunicipality: { type: String },
     specifics: { type: String },
   },
+  website: { type: String, required: true, unique: true },
+  photo: { type: String, required: true, unique: true }
 });
 
 export const MongoDBBusiness = mongoose.model('Business', BusinessSchema);
@@ -29,7 +31,10 @@ class Business {
     province: string;
     cityOrMunicipality: string;
     specifics: string;
+    
   };
+  private website: string;
+  private photo: string;
 
   constructor() {
     this.businessId = '';
@@ -41,7 +46,9 @@ class Business {
       province: '',
       cityOrMunicipality: '',
       specifics: '',
-    };
+    },
+    this.website = ''
+    this.photo = ''
   }
 
   public setBusinessId(businessId: string): void {
@@ -92,6 +99,22 @@ class Business {
     specifics: string;
   } {
     return this.location;
+  }
+
+  public setWebsite(website: string): void {
+    this.website = website;
+  }
+
+  public getWebsite(): string {
+    return this.website;
+  }
+  
+  public setPhoto(photo: string): void {
+    this.photo = photo;
+  }
+
+  public getPhoto(): string {
+    return this.photo;
   }
 }
 
