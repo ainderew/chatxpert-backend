@@ -5,6 +5,7 @@ import AnalyticsModel from '../Models/Analytics.model'
 import { SEARCH_TERMS } from '../utils/constants'
 import config from '../config'
 import { MongoDBDatafile } from '../Models/Datafile.model'
+import { DataFileType } from '../utils/types'
 
 class ChatController {
   private model: any
@@ -15,7 +16,6 @@ class ChatController {
 
   public async getReply(req: any, res: any): Promise<void> {
     const { userInput, userId, specificBusinessId } = req.body
-
     const setAnalytics = (messageId: string, businessId: string = '') => {
       const searchTerm = getSearchTerm(userInput)
 
@@ -45,13 +45,13 @@ class ChatController {
     }
 
     try {
-      let UT_key = null
+      let UT_key:DataFileType | null = null
       if(specificBusinessId){
-        UT_key = await MongoDBDatafile.find({businessId:specificBusinessId}).lean();
+        UT_key = await MongoDBDatafile.findOne({businessId:specificBusinessId, status: true}).lean();
       }
       const response = await axios.post(config.BRAMK_AI_ENDPOINT, {
         data: userInput,
-        UT_key
+        UT_key: UT_key?.blobname
       })
       const aiMessage = new Message(response.data)
       aiMessage.setType(true)

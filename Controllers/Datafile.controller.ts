@@ -25,7 +25,6 @@ class DatafileController {
       await result.save()
 
       const url = `${config.BRAMK_AI_ENDPOINT}/newfile`;
-      console.log(url)
       try {
         await axios.post(url, {
           data: blobname

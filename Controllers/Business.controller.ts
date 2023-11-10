@@ -36,7 +36,6 @@ class BusinessController {
         newBusiness.setPhoto(photo)
         newBusiness.setBusinessEmail(businessEmail)
         newBusiness.setPhoneNumber(phoneNumber)
-        console.log(newBusiness)
         const result = new MongoDBBusiness(newBusiness)
         await result.save()
         res.status(200).json(result)
