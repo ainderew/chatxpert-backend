@@ -14,7 +14,7 @@ class BusinessController {
     const user = new UserController()
     const newBusiness = new Business()
     const newAnalytics = new AnalyticsController()
-    const { name, size, industry, location, website, photo} = req.body
+    const { name, size, industry, location, website, photo, businessEmail, phoneNumber} = req.body
 
     try {
       const businessCheck = await MongoDBBusiness.find({ name })
@@ -34,6 +34,8 @@ class BusinessController {
         newBusiness.setLocation(location)
         newBusiness.setWebsite(website)
         newBusiness.setPhoto(photo)
+        newBusiness.setBusinessEmail(businessEmail)
+        newBusiness.setPhoneNumber(phoneNumber)
         console.log(newBusiness)
         const result = new MongoDBBusiness(newBusiness)
         await result.save()
@@ -112,6 +114,22 @@ class BusinessController {
     } catch (error) {
       next({
         message: 'Failed to categorize businesses.',
+        status: 500,
+      })
+    }
+  }
+
+  public async getAllBusiness(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ){
+    try{
+      const businesses = await MongoDBBusiness.find().lean();
+      res.status(200).json(businesses);
+    }catch(error){
+      next({
+        message: 'Something went wrong',
         status: 500,
       })
     }

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import Datafile, { MongoDBDatafile } from '../Models/Datafile.model'
 import axios from 'axios'
+import config from '../config'
 
 class DatafileController {
   public async saveUploadData( req: Request, res: Response, next: NextFunction) {
@@ -22,6 +23,16 @@ class DatafileController {
 
       const result = new MongoDBDatafile(dataFile)
       await result.save()
+
+      const url = `${config.BRAMK_AI_ENDPOINT}/newfile`;
+      console.log(url)
+      try {
+        await axios.post(url, {
+          data: blobname
+        })
+      } catch (error) {
+        res.status(500).send('An error occurred')
+      }
 
       res.status(200).json(result)
     } catch (error) {

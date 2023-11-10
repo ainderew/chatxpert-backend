@@ -39,6 +39,7 @@ const cAuthentication = new AuthenticationController(mUser)
 // app.use('/register/customer', cAuthentication.getRegisterData)
 app.use('/login', cAuthentication.loginUser)
 app.use('/getReply', chController.getReply)
+app.use('/getReplySpecific', chController.getReply)
 app.use(route)
 app.use(ErrorHandler)
 

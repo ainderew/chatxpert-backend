@@ -16,7 +16,9 @@ const BusinessSchema = new mongoose.Schema({
     specifics: { type: String },
   },
   website: { type: String, required: true, unique: true },
-  photo: { type: String, required: true, unique: true }
+  photo: { type: String, required: true, unique: true },
+  businessEmail: { type: String, required: true, unique: true },
+  phoneNumber: { type: String, required: true, unique: true }
 });
 
 export const MongoDBBusiness = mongoose.model('Business', BusinessSchema);
@@ -35,6 +37,8 @@ class Business {
   };
   private website: string;
   private photo: string;
+  private businessEmail: string;
+  private phoneNumber: string;
 
   constructor() {
     this.businessId = '';
@@ -49,6 +53,8 @@ class Business {
     },
     this.website = ''
     this.photo = ''
+    this.businessEmail = ''
+    this.phoneNumber = ''
   }
 
   public setBusinessId(businessId: string): void {
@@ -115,6 +121,22 @@ class Business {
 
   public getPhoto(): string {
     return this.photo;
+  }
+
+  public setBusinessEmail(businessEmail: string): void {
+    this.businessEmail = businessEmail;
+  }
+
+  public getBusinessEmail(): string {
+    return this.businessEmail;
+  }
+
+  public setPhoneNumber(phoneNumber: string): void {
+    this.phoneNumber = phoneNumber;
+  }
+
+  public getPhoneNumber(): string {
+    return this.phoneNumber;
   }
 }
 
